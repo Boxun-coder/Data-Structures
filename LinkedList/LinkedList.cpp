@@ -14,6 +14,18 @@ linklist init_linklist()
 	return l;
 }
 
+void print_list(linklist l)
+{
+	while(1)
+	{
+		cout<<l->data<<" ";
+		if(l->next!=NULL)
+			l = l->next;
+		else break;
+	}
+	cout<<endl;
+}
+
 void insert_head(linklist &l)
 {
 	lnode *s; //New Node;
@@ -56,15 +68,28 @@ void insert_back(linklist &l)
 		r->next=NULL;
 }
 
-void print_list(linklist l)
+bool insert_position(linklist &l,int position, int value)
 {
-	while(1)
+	cout<<"Before insertion: "<<endl;
+	print_list(l);
+	lnode *s;
+	linklist t = l;
+	while(position!=0)
 	{
-		cout<<l->data<<" ";
-		if(l->next!=NULL)
-			l = l->next;
-		else break;
+		if(t->next!=NULL)
+		{
+			t=t->next;
+			position--;
+		}
+		else return false;
 	}
+	s = (lnode*)malloc(sizeof(lnode));
+	s->data = value;
+	s->next = t->next;
+	t->next = s;
+	cout<<"After Insertion: "<<endl;
+	print_list(l);
+	return true;
 }
 
 int main()
@@ -72,6 +97,7 @@ int main()
 	linklist l = init_linklist();
 	insert_head(l);
 	insert_back(l);
-	print_list(l);
+	insert_position(l,0,100); //Test
+	//print_list(l);
 	return 0;
 }
