@@ -16,6 +16,11 @@ linklist init_linklist()
 
 void print_list(linklist l)
 {
+	if(l==NULL)
+	{
+		cout<<"Void\n";
+		return;
+	}
 	while(1)
 	{
 		cout<<l->data<<" ";
@@ -92,12 +97,61 @@ bool insert_position(linklist &l,int position, int value)
 	return true;
 }
 
-int main()
+void delete_position(linklist &l, int position)
+{
+	lnode *p=l;
+	lnode *q;
+	if(position==0)
+	{
+		q = p->next;
+		delete p;
+		l = q;
+		cout<<"After deletion:\n";
+		print_list(l);
+		return;
+	}
+	int j = 1;
+	while(p->next!=NULL && j<position)
+	{
+		p=p->next;
+		++j;
+	}
+	if(!(p->next) || j>position)
+	{
+		cout<<"element does not exist";
+		return;
+	}
+	q = p->next;
+	p->next=q->next;
+	delete q;
+	cout<<"After deletion:\n";
+	print_list(l);
+	return;
+}
+
+void delete_list(linklist &l)
+{
+	lnode* p=l;
+	lnode* q;
+	while(p!=NULL)
+	{
+		q = p->next;
+		delete p;
+		p=q;
+	}
+	l = NULL;
+	return;
+}
+
+int main() //Test functions
 {
 	linklist l = init_linklist();
 	insert_head(l);
 	insert_back(l);
 	insert_position(l,0,100); //Test
-	//print_list(l);
+	print_list(l);
+	delete_position(l,0);  //Test
+	delete_list(l);
+	print_list(l);
 	return 0;
 }
